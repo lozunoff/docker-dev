@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./data:/usr/share/nginx/html
+      - ./nginx/conf/:/etc/nginx/conf.d/
+      - ./nginx/logs:/var/log/nginx/
+    working_dir: /usr/share/nginx/html
+    depends_on:
+      - php7.4-fpm
+
+  php7.4-fpm:
+    build:
+      context: ./php
+    volumes:
+      - ./data:/usr/share/nginx/html
+      - ./php/conf:/usr/local/etc/php
+    working_dir: /usr/share/nginx/html
+
+  mariadb:
+    image: bitnami/mariadb
+    restart: always
+    env_file:
+      - ./env/mariadb.env
+    volumes:
+      - ./mariadb:/bitnami/mariadb
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+        - 8080:8080
+    env_file:
+      - ./env/adminer.env
+    depends_on:
+      - mariadb
