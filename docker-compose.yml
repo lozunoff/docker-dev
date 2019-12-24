@@ -21,6 +21,8 @@ services:
       - ./data:/usr/share/nginx/html
       - ./php/conf:/usr/local/etc/php
     working_dir: /usr/share/nginx/html
+    depends_on:
+      - mailhog
 
   mariadb:
     image: bitnami/mariadb
@@ -39,3 +41,10 @@ services:
       - ./env/adminer.env
     depends_on:
       - mariadb
+
+  mailhog:
+    image: mailhog/mailhog
+    restart: always
+    ports:
+      - 1025:1025
+      - 8025:8025
