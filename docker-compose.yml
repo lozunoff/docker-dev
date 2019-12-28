@@ -19,7 +19,8 @@ services:
       context: ./php
     volumes:
       - ./data:/usr/share/nginx/html
-      - ./php/conf:/usr/local/etc/php
+      - ./php/logs:/var/log/php/
+      - ./php/conf/php.ini:/usr/local/etc/php/conf.d/custom.ini
     working_dir: /usr/share/nginx/html
     depends_on:
       - mailhog
