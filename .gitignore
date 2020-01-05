@@ -1,3 +1,4 @@
 .idea
 mariadb/data
+data/bitrix.local
 /**/logs/
