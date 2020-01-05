@@ -6,6 +6,8 @@ services:
     image: nginx
     ports:
       - 80:80
+    env_file:
+      - ./env/general.env
     volumes:
       - ./data:/usr/share/nginx/html
       - ./nginx/conf/:/etc/nginx/conf.d/
@@ -19,6 +21,8 @@ services:
   php7.4-fpm:
     build:
       context: ./php
+    env_file:
+      - ./env/general.env
     volumes:
       - ./data:/usr/share/nginx/html
       - ./php/logs:/var/log/php/
@@ -34,6 +38,7 @@ services:
     image: bitnami/mariadb
     restart: always
     env_file:
+      - ./env/general.env
       - ./env/mariadb.env
     volumes:
       - ./mariadb:/bitnami/mariadb
@@ -41,11 +46,13 @@ services:
       - private
 
   adminer:
-    image: adminer
+    build:
+      context: ./adminer
     restart: always
     ports:
         - 8080:8080
     env_file:
+      - ./env/general.env
       - ./env/adminer.env
     depends_on:
       - mariadb
@@ -53,11 +60,14 @@ services:
       - private
 
   mailhog:
-    image: mailhog/mailhog
+    build:
+      context: ./mailhog
     restart: always
     ports:
       - 1025:1025
       - 8025:8025
+    env_file:
+      - ./env/general.env
     networks:
       - public
 
