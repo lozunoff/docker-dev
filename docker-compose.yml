@@ -42,6 +42,8 @@ services:
       - ./env/mariadb.env
     volumes:
       - ./mariadb:/bitnami/mariadb
+      - ./mariadb/conf/my_custom.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro
+      - ./mariadb/logs:/opt/bitnami/mariadb/logs
     networks:
       - private
 
