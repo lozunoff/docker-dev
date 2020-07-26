@@ -36,6 +36,8 @@ services:
   mariadb:
     image: bitnami/mariadb
     restart: always
+    ports:
+      - 3306:3306
     env_file:
       - ./env/general.env
       - ./env/mariadb.env
