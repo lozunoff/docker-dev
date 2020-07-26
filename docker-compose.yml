@@ -9,10 +9,10 @@ services:
     env_file:
       - ./env/general.env
     volumes:
-      - ./data:/usr/share/nginx/html
+      - ./data:/var/www
       - ./nginx/conf/:/etc/nginx/conf.d/
       - ./nginx/logs:/var/log/nginx/
-    working_dir: /usr/share/nginx/html
+    working_dir: /var/www
     depends_on:
       - php7.4-fpm
     networks:
@@ -24,10 +24,10 @@ services:
     env_file:
       - ./env/general.env
     volumes:
-      - ./data:/usr/share/nginx/html
+      - ./data:/var/www
       - ./php/logs:/var/log/php/
-      - ./php/conf/php.ini:/usr/local/etc/php/conf.d/custom.ini
-    working_dir: /usr/share/nginx/html
+      - ./php/conf/php.ini:/usr/local/etc/php/php.ini
+    working_dir: /var/www
     depends_on:
       - mailhog
     networks:
