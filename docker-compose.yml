@@ -16,7 +16,7 @@ services:
     depends_on:
       - php7.4-fpm
     networks:
-      - public
+      - internal
 
   php7.4-fpm:
     build:
@@ -31,8 +31,7 @@ services:
     depends_on:
       - mailhog
     networks:
-      - public
-      - private
+      - internal
 
   mariadb:
     image: bitnami/mariadb
@@ -45,21 +44,21 @@ services:
       - ./mariadb/conf/my_custom.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro
       - ./mariadb/logs:/opt/bitnami/mariadb/logs
     networks:
-      - private
+      - internal
 
   adminer:
     build:
       context: ./adminer
     restart: always
     ports:
-        - 8080:8080
+      - 8080:8080
     env_file:
       - ./env/general.env
       - ./env/adminer.env
     depends_on:
       - mariadb
     networks:
-      - private
+      - internal
 
   mailhog:
     build:
@@ -71,9 +70,12 @@ services:
     env_file:
       - ./env/general.env
     networks:
-      - public
+      - internal
 
 networks:
-  private:
-  public:
-
+  internal:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.220.0/28
